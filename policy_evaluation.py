@@ -2,7 +2,7 @@ import numpy as np
 
 class PolicyEvaluation:
 
-    def __init__(self, policy=None, transition = None, reward = None, gamma = 0.75, epsilon=1e-4):
+    def __init__(self, policy, transition, reward, gamma = 0.75, epsilon=1e-4):
         self.policy = policy
         self.transition = transition
         self.reward = reward
@@ -41,14 +41,11 @@ class PolicyEvaluation:
 
         while delta > difference:
             V_new = np.zeros(self.n_states)
-            delta = 0.0 
-
             for s in self.states:
                 i = self.state_to_idx[s]
                 a = self.policy[s]
 
                 r = self.reward[(s,a)]
-                possible_V = []
 
                 value_s = r
                 for next_state, prob in self.transition[(s,a)]:
@@ -56,7 +53,7 @@ class PolicyEvaluation:
                     value_s_prime = V[j]
                     value_s += self.gamma * prob *  value_s_prime
                 V_new[i] = value_s
-            delta = max(delta, abs(V_new[i] - V[i]))
+            delta = np.max(np.abs(V_new - V))
             V = V_new
 
         return V
