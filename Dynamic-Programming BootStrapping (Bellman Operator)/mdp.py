@@ -2,8 +2,9 @@
 
 import gymnasium as gym
 import numpy as np
-from gymnasium import spaces
 import pygame
+from gymnasium import spaces
+
 
 class SurpriseQuizEnv(gym.Env):
     metadata = {"render_modes": ["human"], "render_fps": 4}
